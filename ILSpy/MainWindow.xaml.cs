@@ -126,6 +126,14 @@ namespace ICSharpCode.ILSpy
 			}
 			DockWorkspace.Instance.LoadSettings(sessionSettings);
 			InitializeComponent();
+
+			CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, (_, __) => { SystemCommands.CloseWindow(this); }));
+			CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, (_, __) => { SystemCommands.MinimizeWindow(this); }));
+			CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, (_, __) => { SystemCommands.MaximizeWindow(this); }));
+			CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, (_, __) => { SystemCommands.RestoreWindow(this); }));
+			CommandBindings.Add(new CommandBinding(SystemCommands.ShowSystemMenuCommand, ShowSystemMenu));
+
+
 			InitToolPanes();
 			DockWorkspace.Instance.InitializeLayout(DockManager);
 			sessionSettings.PropertyChanged += SessionSettings_PropertyChanged;
@@ -139,6 +147,19 @@ namespace ICSharpCode.ILSpy
 
 			this.Loaded += MainWindow_Loaded;
 		}
+
+		private void ShowSystemMenu(object sender, ExecutedRoutedEventArgs e)
+		{
+			if (e.OriginalSource is not FrameworkElement element)
+				return;
+
+			Point position = (WindowState == WindowState.Maximized) ?
+				(new Point(0, element.ActualHeight)) :
+				(new Point(Left + BorderThickness.Left, element.ActualHeight + Top + BorderThickness.Top));
+			position = element.TransformToAncestor(this).Transform(position);
+			SystemCommands.ShowSystemMenu(this, position);
+		}
+
 
 		private void DockWorkspace_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{

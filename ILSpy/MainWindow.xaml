@@ -20,6 +20,7 @@
 	xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
 	xmlns:themes="clr-namespace:ICSharpCode.ILSpy.Themes"
 	d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
+	Style="{StaticResource WindowDefaultStyleKey}"
 >
 	<Window.Resources>
 		<controls:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -150,7 +151,8 @@
 		<!-- ToolBar -->
 		<ToolBar
 			Name="toolBar"
-			DockPanel.Dock="Top" ToolBarTray.IsLocked="True" KeyboardNavigation.TabNavigation="None">
+			DockPanel.Dock="Top" ToolBarTray.IsLocked="True" KeyboardNavigation.TabNavigation="None"
+			>
 			<ToolBar.Resources>
 				<!-- Make images transparent if menu command is disabled -->
 				<Style TargetType="{x:Type Image}">
